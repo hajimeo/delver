@@ -10,7 +10,7 @@ import nl.omgwtfbbq.delver.transformer.PerformanceTransformer;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
