@@ -146,3 +146,19 @@ Output:
     0             nl.omgwtfbbq.delver.mbeans.MethodUsageSampler  writeToFile(java.lang.String)
     0             nl.omgwtfbbq.delver.TestRunner                 run()
     0             nl.omgwtfbbq.delver.mbeans.MethodUsageSampler  getTotalMethodUsageCount()
+
+# Misc.
+```
+export JAVA_TOOL_OPTIONS="-javaagent:./delver-1.0-SNAPSHOT.jar=./delver-conf.xml"
+```
+If Karaf, may need to edit `etc/karaf/config.properties` to append
+```
+org.osgi.framework.bootdelegation = \
+    ...
+    nl.omgwtfbbq.delver.mbeans, \
+    nl.omgwtfbbq.delver.conf, \
+    nl.omgwtfbbq.delver.http, \
+    nl.omgwtfbbq.delver.transformer, \
+    nl.omgwtfbbq.delver
+```
+TODO: `NotFoundException on class 'com/sonatype/nexus/...`

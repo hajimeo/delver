@@ -1,12 +1,11 @@
 <!-- setConfig Delver example XML config. -->
-<!-- export JAVA_TOOL_OPTIONS="-javaagent:./delver-1.0-SNAPSHOT.jar=./delver-conf.xml" -->
 <delver verbose="false">
     <http>
         <enabled>true</enabled>
         <port>18080</port>
     </http>
     <include>
-        <pattern>com.sonatype.*</pattern>
+        <!--pattern>com.sonatype.*</pattern-->
         <pattern>org.apache.http.*</pattern>
     </include>
     <exclude>
