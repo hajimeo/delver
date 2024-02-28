@@ -1,16 +1,13 @@
-<!--setConfig Delver example XML config. -->
+<!-- setConfig Delver example XML config. -->
+<!-- export JAVA_TOOL_OPTIONS="-javaagent:./delver-1.0-SNAPSHOT.jar=./delver-conf.xml" -->
 <delver verbose="false">
     <http>
         <enabled>true</enabled>
-        <port>8081</port>
+        <port>18080</port>
     </http>
     <include>
-        <pattern>nl/omgwtfbbq/delver/.*$</pattern>
-        <pattern>nl/omgwtfbbq/delver/conf</pattern>
-        <pattern>nl/omgwtfbbq/delver/conf/cruft/*$</pattern>
-        <pattern>nl/omgwtfbbq/delver/other</pattern>
-        <pattern>[z</pattern> <!-- this one should fail compiling. -->
-        <pattern>org.example.*.anything.*</pattern>
+        <pattern>com.sonatype.*</pattern>
+        <pattern>org.apache.http.*</pattern>
     </include>
     <exclude>
         <pattern>nl/omgwtfbbq/delver/SignatureFormatter</pattern>
