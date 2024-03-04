@@ -5,12 +5,12 @@
         <port>18080</port>
     </http>
     <include>
+        <!-- Below pattern doesn't work with RM3 -->
         <!--pattern>com.sonatype.*</pattern-->
+        <pattern>org.postgresql.*</pattern>
         <pattern>org.apache.http.*</pattern>
     </include>
     <exclude>
-        <pattern>nl/omgwtfbbq/delver/SignatureFormatter</pattern>
-        <pattern>nl/skipthis</pattern>
-        <pattern>nl/andthis/skip/too</pattern>
+        <pattern>com.orientechnologies.*</pattern>
     </exclude>
 </delver>

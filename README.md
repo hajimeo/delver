@@ -149,16 +149,15 @@ Output:
 
 # Misc.
 ```
-export JAVA_TOOL_OPTIONS="-javaagent:./delver-1.0-SNAPSHOT.jar=./delver-conf.xml"
+export JAVA_TOOL_OPTIONS="-javaagent:$HOME/IdeaProjects/delver/target/delver-1.0-SNAPSHOT.jar=$HOME/IdeaProjects/delver/src/test/resources/delver-conf.xml"
 ```
-If Karaf, may need to edit `etc/karaf/config.properties` to append
+If Karaf, may need to edit `etc/karaf/config.properties` to append packages under bootdelegation:
 ```
-org.osgi.framework.bootdelegation = \
-    ...
-    nl.omgwtfbbq.delver.mbeans, \
-    nl.omgwtfbbq.delver.conf, \
-    nl.omgwtfbbq.delver.http, \
-    nl.omgwtfbbq.delver.transformer, \
-    nl.omgwtfbbq.delver
+_conf="$(find . -maxdepth 4 -type f -name 'config.properties' -path '*/etc/karaf/*' | head -n1)"
+if [ -n "${_conf}" ] && ! grep -q 'nl.omgwtfbbq.delver' ${_conf}; then
+    sed -i '' '/^org.osgi.framework.bootdelegation = /a \
+    nl.omgwtfbbq.delver.mbeans,nl.omgwtfbbq.delver.conf,nl.omgwtfbbq.delver.http,nl.omgwtfbbq.delver.transformer,nl.omgwtfbbq.delver, \\
+' ${_conf}
+fi
 ```
 TODO: `NotFoundException on class 'com/sonatype/nexus/...`
