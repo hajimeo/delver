@@ -63,7 +63,7 @@ public final class PerformanceCollector {
     /**
      * Gets the total amount of calls.
      *
-     * @return The tiotal amount of calls.
+     * @return The total amount of calls.
      */
     public long totalCallCount() {
         return calls.values().stream().mapToInt(Metric::getCallCount).sum();
@@ -78,9 +78,12 @@ public final class PerformanceCollector {
     public void write(final OutputStream os) throws IOException {
         for (Signature signature : calls.keySet()) {
             Metric m = calls.get(signature);
-            os.write((m.getCallCount() + ";").getBytes());
-            os.write((m.getAverage() + ";").getBytes());
+            os.write((m.getCallCount() + ",").getBytes());
+            os.write((m.getAverage() + ",").getBytes());
+            os.write(("\"").getBytes());
             os.write(SignatureFormatter.format(signature).getBytes());
+            os.write(("\"").getBytes());
+            os.write(System.lineSeparator().getBytes());
         }
         os.flush();
     }
@@ -92,22 +95,23 @@ public final class PerformanceCollector {
      * @throws IOException When something fails.
      */
     public void write(final Writer w) throws IOException {
-        w.write("Call count;Max (ms);Average (ms);Total (ms);Modifiers;Returntype;Classname;Methodname\n");
+        w.write("Call count, Max (ms), Average (ms), Total (ms), Modifiers;Returntype;Classname;Methodname\n");
 
         List<Metric> metricList = new ArrayList<>(calls.values());
         Collections.sort(metricList);
         for (Metric m : metricList) {
             Signature signature = m.getSignature();;
             w.write(String.valueOf(m.getCallCount()));
-            w.write(";");
+            w.write(",");
             w.write(String.valueOf(m.getMax()));
-            w.write(";");
+            w.write(",");
             w.write(String.valueOf(m.getAverage()));
-            w.write(";");
+            w.write(",");
             w.write(String.valueOf(m.getTotal()));
-            w.write(";");
+            w.write(",\"");
             w.write(SignatureFormatter.format(signature));
-            w.write("\n");
+            w.write("\"");
+            w.write(System.lineSeparator());
         }
 //        int sum = calls.values().stream().mapToInt(Metric::getCallCount).sum();
 //        System.out.println("sum of all calls: " + sum);
