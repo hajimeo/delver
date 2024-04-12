@@ -93,7 +93,10 @@ The `writeToFile` function will generate a semicolon separated file which has th
 
 Columns:
 
-1. Amount of calls to this method.
+1. Count of calls to this method.
+1. Max (ms) of calls to this method.
+1. Average (ms) of calls to this method.
+1. Total (ms) of calls to this method.
 1. Modifiers (public, private, static, final, synchronized, etc)
 1. Return type.
 1. Fully qualified class name, dot separated.
@@ -148,6 +151,9 @@ Output:
     0             nl.omgwtfbbq.delver.mbeans.MethodUsageSampler  getTotalMethodUsageCount()
 
 # Misc.
+- The output has been changed to use "," for the delimiter instead of ";".
+- Added `/reset`
+- How to start
 ```
 export JAVA_TOOL_OPTIONS="-javaagent:$HOME/IdeaProjects/delver/target/delver-1.0-SNAPSHOT.jar=$HOME/IdeaProjects/delver/src/test/resources/delver-conf.xml"
 ```

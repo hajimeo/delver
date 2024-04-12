@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 // TODO: do performance tests on the usage of ConcurrentHashmap.
 
@@ -51,6 +50,10 @@ public final class PerformanceCollector {
         }
     }
 
+    public void reset() {
+        calls = new ConcurrentHashMap<>();
+    }
+
     /**
      * Gets the call map as an unmodifiable map.
      *
@@ -76,16 +79,19 @@ public final class PerformanceCollector {
      * @throws IOException When something fails.
      */
     public void write(final OutputStream os) throws IOException {
-        for (Signature signature : calls.keySet()) {
-            Metric m = calls.get(signature);
+        List<Metric> metricList = new ArrayList<>(calls.values());
+        for (Metric m : metricList) {
+            Signature signature = m.getSignature();
             os.write((m.getCallCount() + ",").getBytes());
+            os.write((m.getMax() + ",").getBytes());
             os.write((m.getAverage() + ",").getBytes());
+            os.write((m.getTotal() + ",").getBytes());
             os.write(("\"").getBytes());
             os.write(SignatureFormatter.format(signature).getBytes());
             os.write(("\"").getBytes());
             os.write(System.lineSeparator().getBytes());
+            os.flush();
         }
-        os.flush();
     }
 
     /**
@@ -98,9 +104,9 @@ public final class PerformanceCollector {
         w.write("Call count, Max (ms), Average (ms), Total (ms), Modifiers;Returntype;Classname;Methodname\n");
 
         List<Metric> metricList = new ArrayList<>(calls.values());
-        Collections.sort(metricList);
+        //Collections.sort(metricList);
         for (Metric m : metricList) {
-            Signature signature = m.getSignature();;
+            Signature signature = m.getSignature();
             w.write(String.valueOf(m.getCallCount()));
             w.write(",");
             w.write(String.valueOf(m.getMax()));
@@ -112,9 +118,9 @@ public final class PerformanceCollector {
             w.write(SignatureFormatter.format(signature));
             w.write("\"");
             w.write(System.lineSeparator());
+            w.flush();
         }
 //        int sum = calls.values().stream().mapToInt(Metric::getCallCount).sum();
 //        System.out.println("sum of all calls: " + sum);
-        w.flush();
     }
 }
