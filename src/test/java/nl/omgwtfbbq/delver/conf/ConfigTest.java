@@ -3,7 +3,7 @@ package nl.omgwtfbbq.delver.conf;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.io.InputStream;
 
 public class ConfigTest {

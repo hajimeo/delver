@@ -10,7 +10,7 @@ import nl.omgwtfbbq.delver.transformer.PerformanceTransformer;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -54,6 +54,14 @@ public class DelverMain {
                 server = HttpServer.create(new InetSocketAddress(config.getHttpConfig().getHttpPort()), 0);
                 server.createContext("/", new DelverHttpHandler());
                 server.createContext("/totals", new TotalsHttpHandler());
+                server.createContext("/reset", httpExchange -> {
+                    String msg = "Reset the counter";
+                    Logger.warn(msg);
+                    httpExchange.sendResponseHeaders(200, (msg + "\n").length());
+                    httpExchange.getResponseBody().write((msg + "\n").getBytes());
+                    httpExchange.getResponseBody().close();
+                    PerformanceCollector.instance().reset();
+                });
                 server.createContext("/stop", httpExchange -> {
                     // FIXME: on JVM exit, the http server is not automatically stopped.
                     // I tried a shutdown hook but that does not seem to be invoked? For

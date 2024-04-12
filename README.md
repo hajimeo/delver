@@ -93,7 +93,10 @@ The `writeToFile` function will generate a semicolon separated file which has th
 
 Columns:
 
-1. Amount of calls to this method.
+1. Count of calls to this method.
+1. Max (ms) of calls to this method.
+1. Average (ms) of calls to this method.
+1. Total (ms) of calls to this method.
 1. Modifiers (public, private, static, final, synchronized, etc)
 1. Return type.
 1. Fully qualified class name, dot separated.
@@ -146,3 +149,21 @@ Output:
     0             nl.omgwtfbbq.delver.mbeans.MethodUsageSampler  writeToFile(java.lang.String)
     0             nl.omgwtfbbq.delver.TestRunner                 run()
     0             nl.omgwtfbbq.delver.mbeans.MethodUsageSampler  getTotalMethodUsageCount()
+
+# Misc.
+- The output has been changed to use "," for the delimiter instead of ";".
+- Added `/reset`
+- How to start
+```
+export JAVA_TOOL_OPTIONS="-javaagent:$HOME/IdeaProjects/delver/target/delver-1.0-SNAPSHOT.jar=$HOME/IdeaProjects/delver/src/test/resources/delver-conf.xml"
+```
+If Karaf, may need to edit `etc/karaf/config.properties` to append packages under bootdelegation:
+```
+_conf="$(find . -maxdepth 4 -type f -name 'config.properties' -path '*/etc/karaf/*' | head -n1)"
+if [ -n "${_conf}" ] && ! grep -q 'nl.omgwtfbbq.delver' ${_conf}; then
+    sed -i '' '/^org.osgi.framework.bootdelegation = /a \
+    nl.omgwtfbbq.delver.mbeans,nl.omgwtfbbq.delver.conf,nl.omgwtfbbq.delver.http,nl.omgwtfbbq.delver.transformer,nl.omgwtfbbq.delver, \\
+' ${_conf}
+fi
+```
+TODO: `NotFoundException on class 'com/sonatype/nexus/...`
