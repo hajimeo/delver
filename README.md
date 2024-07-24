@@ -14,7 +14,7 @@ combinations of Struts 1.0, tag libraries, and finding methods through reflectio
 and what not. Many calls could not be checked using a static analysis.
 
 # Building
-Build it with `mvn -Dmaven.test.skip=true clean install`. It will produce a shaded 'uber JAR' which
+Build it with `mvn -Dmaven.test.skip=true clean package`. It will produce a shaded 'uber JAR' which
 contains the agent code, plus the [javassist](http://www.javassist.org) code
 dependency.
 
