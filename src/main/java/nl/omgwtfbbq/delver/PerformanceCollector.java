@@ -101,7 +101,7 @@ public final class PerformanceCollector {
      * @throws IOException When something fails.
      */
     public void write(final Writer w) throws IOException {
-        w.write("Call count, Max (ms), Average (ms), Total (ms), Modifiers;Returntype;Classname;Methodname\n");
+        w.write("\"Call_count\",\"Max_ms\",\"Average_ms\",\"Total_ms\",\"Modifiers;Returntype;Classname;Methodname\"\n");
 
         List<Metric> metricList = new ArrayList<>(calls.values());
         //Collections.sort(metricList);

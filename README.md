@@ -14,7 +14,7 @@ combinations of Struts 1.0, tag libraries, and finding methods through reflectio
 and what not. Many calls could not be checked using a static analysis.
 
 # Building
-Build it with `mvn clean install`. It will produce a shaded 'uber JAR' which
+Build it with `mvn -Dmaven.test.skip=true clean install`. It will produce a shaded 'uber JAR' which
 contains the agent code, plus the [javassist](http://www.javassist.org) code
 dependency.
 
@@ -118,7 +118,7 @@ If an HTTP server is started via the configuration file, the results can be view
 using any HTTP client by simply browsing to `http://thehost:${port}`. The results displayed are
 in the following format:
 
-    Call count;Max (ms);Average (ms);Total (ms);Modifiers;Returntype;Classname;Methodname
+    "Call_count","Max_ms","Average_ms","Total_ms","Modifiers;Returntype;Classname;Methodname"
     2;0;0;0;protected;void;nl.omgwtfbbq.delver.TestRunner$TheClass;abstractMethod()
     2;0;0;0;public;void;nl.omgwtfbbq.delver.TestRunner$BaseClass;concreteMethodInBaseClass()
     1;0;0;0;public;void;nl.omgwtfbbq.delver.TestRunner$TheClass;concreteMethod()
@@ -153,6 +153,11 @@ Output:
 # Misc.
 - The output has been changed to use "," for the delimiter instead of ";".
 - Added `/reset`
+```
+curl "http://localhost:18080/reset"
+# do some test
+curl "http://localhost:18080/" > /tmp/delver_$(date +"%Y%m%d%H%M%S").csv
+```
 - How to start
 ```
 export JAVA_TOOL_OPTIONS="-javaagent:$HOME/IdeaProjects/delver/target/delver-1.0-SNAPSHOT.jar=$HOME/IdeaProjects/delver/src/test/resources/delver-conf.xml"

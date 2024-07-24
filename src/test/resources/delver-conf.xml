@@ -7,6 +7,9 @@
     <include>
         <!-- Below pattern doesn't work with RM3 -->
         <!--pattern>com.sonatype.*</pattern-->
+        <pattern>sun.nio.fs.*</pattern>
+        <pattern>sun.security.*</pattern>
+        <pattern>com.google.common.io.*</pattern>
         <pattern>org.postgresql.*</pattern>
         <pattern>org.apache.http.*</pattern>
     </include>
